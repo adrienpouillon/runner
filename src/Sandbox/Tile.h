@@ -2,6 +2,9 @@
 #include "Entity.h"
 
 #define BONUS_CHANCE 50.f
+#define MALUS_CHANCE 10.f
+#define JUMP_CHANCE 30.f
+
 
 class Tile
 {
@@ -21,6 +24,16 @@ public:
 		UP_RIGHT,
 
 		COUNT
+	};
+
+	enum TileBiome
+	{
+		PLAINE,
+		NEIGE,
+		DESERT,
+		HANTE,
+
+		RANDOM_BIOME
 	};
 
 	enum TileConfig
@@ -52,6 +65,18 @@ public:
 
 	virtual void Make();
 
+	virtual Entity* CreatBonus(int nb_bonus);
+	virtual Entity* CreatJump(int nb_bonus);
+
+	virtual Entity* ChooseBonusMalus(int nb_malus, gce::Vector3f32 pos);
+
+	virtual gce::Vector3f32 PosBonus();
+	virtual gce::Vector3f32 PosJump();
+
+	Entity* AddBonus(gce::Vector3f32 bonusPos);
+	Entity* AddMalus(gce::Vector3f32 bonusPos);
+	Entity* AddJump(gce::Vector3f32 bonusPos);
+
 	void CollideWithEntity(Entity* entity);
 
 	template<typename T>
@@ -78,9 +103,6 @@ public:
 	int GetConfig() { return mConfig; }
 
 	Entity* GetEntity(Entity::Tag tagOfEntity);
-
-	virtual Entity* AddBonus();
-	Entity* AddBonus(gce::Vector3f32 bonusPos);
 
 
 	int GenerateRandomNumber(int min, int max);

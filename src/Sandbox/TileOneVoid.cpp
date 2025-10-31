@@ -17,9 +17,14 @@ void TileOneVoid::Start()
 	SetConfig(TileConfig::CLASSIC_CONFIG);
 }
 
-Entity* TileOneVoid::AddBonus()
+gce::Vector3f32 TileOneVoid::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + gce::Vector3f32{ 0.f, 1.f, 0.f });
+	return GetPosition() + gce::Vector3f32{ 0.f, 1.f, 0.f };
+}
+
+gce::Vector3f32 TileOneVoid::PosJump()
+{
+	return GetPosition() + gce::Vector3f32{ 0.f, 1.f, -6.f };
 }
 
 void TileOneVoid::Make()
@@ -31,8 +36,6 @@ void TileOneVoid::Make()
 
 	SetSize({ 9.f, 9.f, 3.f });
 
-	if (GenerateRandomNumber(100) < BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }

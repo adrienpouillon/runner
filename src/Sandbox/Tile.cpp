@@ -43,13 +43,87 @@ void Tile::Draw(Window* renderTarget)
 void Tile::Make()
 {
 	Entity* e1 = Add<Entity>();
-	e1->SetScale(ENTITY_D_SIZE);
+	e1->SetScale({ 9.f, 1.f, 9.f });
+	e1->SetColor({ 0.f, 0.f, 0.f });
+	e1->SetPosition({ 0.f, 0.f, 0.f });
 	e1->SetTag(Entity::GROUND);
 
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
+	CreatBonus(100);
+	CreatJump(200);
+}
+
+Entity* Tile::CreatBonus(int nb_bonus)
+{
+	if (GenerateRandomNumber(nb_bonus) <= BONUS_CHANCE)
 	{
-		AddBonus();
+		gce::Vector3f32 posBonus = PosBonus();
+		return ChooseBonusMalus(nb_bonus, posBonus);
 	}
+	return nullptr;
+}
+
+Entity* Tile::CreatJump(int nb_bonus)
+{
+	if (GenerateRandomNumber(nb_bonus) <= JUMP_CHANCE)
+	{
+		gce::Vector3f32 posBonus = PosJump();
+		return AddJump(posBonus);
+	}
+	return nullptr;
+}
+
+Entity* Tile::ChooseBonusMalus(int nb_malus, gce::Vector3f32 pos)
+{
+	if (GenerateRandomNumber(nb_malus) <= MALUS_CHANCE)
+	{
+		return AddMalus(pos);
+	}
+	else
+	{
+		return AddBonus(pos);
+	}
+	
+}
+
+gce::Vector3f32 Tile::PosBonus()
+{
+	return mPosition + gce::Vector3f32{ 0.f, 1.f, 0.f };
+}
+
+gce::Vector3f32 Tile::PosJump()
+{
+	return GetPosition() + gce::Vector3f32{ 0.f, 1.f, 0.f };
+}
+
+Entity* Tile::AddBonus(gce::Vector3f32 bonusPos)
+{
+	Entity* e = Add<Entity>();
+	e->SetGeometry(new Sphere);
+	e->SetColor({ 1.f, 1.f, 0.f });
+	e->SetTag(Entity::SPEED_BONUS);
+	e->SetPosition(bonusPos);
+	return e;
+}
+
+Entity* Tile::AddMalus(gce::Vector3f32 bonusPos)
+{
+	Entity* e = Add<Entity>();
+	e->SetGeometry(new Sphere);
+	e->SetColor({ 1.f, 0.f, 1.f });
+	e->SetTag(Entity::SPEED_MALUS);
+	e->SetPosition(bonusPos);
+	return e;
+}
+
+Entity* Tile::AddJump(gce::Vector3f32 bonusPos)
+{
+	Entity* e = Add<Entity>();
+	e->SetGeometry(new Cube);
+	e->SetScale({ 1.5f, 1.f, 1.5f });
+	e->SetColor({ 0.f, 1.f, -3.f });
+	e->SetTag(Entity::SPEED_JUMP);
+	e->SetPosition(gce::Vector3f32(bonusPos.x, bonusPos.y - 0.9f, bonusPos.z));
+	return e;
 }
 
 void Tile::CollideWithEntity(Entity* entityOther)
@@ -114,21 +188,6 @@ Entity* Tile::GetEntity(Entity::Tag tagOfEntity)
 		}
 	}
 	return nullptr;
-}
-
-Entity* Tile::AddBonus()
-{
-	return AddBonus(mPosition + gce::Vector3f32{ 0.f, 1.f, 0.f });
-}
-
-Entity* Tile::AddBonus(gce::Vector3f32 bonusPos)
-{
-	Entity* e = Add<Entity>();
-	e->SetGeometry(new Sphere);
-	e->SetColor({ 1.f, 1.f, 0.f });
-	e->SetTag(Entity::SPEED_BONUS);
-	e->SetPosition(bonusPos);
-	return e;
 }
 
 

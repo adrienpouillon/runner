@@ -8,7 +8,9 @@ public:
 
 	virtual void Start();
 
-	virtual Entity* AddBonus() override;
+	virtual gce::Vector3f32 PosBonus();
+
+	gce::Vector3f32 PosJump();
 
 	virtual void Make() override;
 };

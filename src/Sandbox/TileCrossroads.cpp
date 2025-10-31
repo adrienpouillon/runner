@@ -19,9 +19,14 @@ void TileCrossroads::Start()
 	SetConfig(TileConfig::RANDOM_CONFIG);
 }
 
-Entity* TileCrossroads::AddBonus()
+gce::Vector3f32 TileCrossroads::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + gce::Vector3f32{ 0.f, 1.f, 0.f });
+	return GetPosition() + gce::Vector3f32{ 0.f, 1.f, 0.f };
+}
+
+gce::Vector3f32 TileCrossroads::PosJump()
+{
+	return GetPosition() + BipolarConfig({ 3.f, 1.f, 9.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f });
 }
 
 void TileCrossroads::Make()
@@ -61,10 +66,7 @@ void TileCrossroads::Make()
 		e3->SetTag(Entity::GROUND);
 	}
 
-
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }
 

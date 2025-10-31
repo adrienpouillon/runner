@@ -19,9 +19,14 @@ void TileO::Start()
 	SetConfig(TileConfig::RANDOM_CONFIG);
 }
 
-Entity* TileO::AddBonus()
+gce::Vector3f32 TileO::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + BipolarConfig({ 3.f, 1.f, 0.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
+	return GetPosition() + BipolarConfig({ 3.f, 1.f, 0.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f });
+}
+
+gce::Vector3f32 TileO::PosJump()
+{
+	return GetPosition() + BipolarConfig({ 3.f, 1.f, 0.f }, TileConfig::_2CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_1CONFIG, { -1.f, 1.f, 1.f });
 }
 
 void TileO::Make()
@@ -68,8 +73,6 @@ void TileO::Make()
 	e5->SetPosition({ 0.f, 0.f, 3.f });
 	e5->SetTag(Entity::GROUND);
 
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }

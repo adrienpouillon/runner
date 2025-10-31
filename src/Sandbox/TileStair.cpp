@@ -19,9 +19,14 @@ void TileStair::Start()
 	SetConfig(TileConfig::RANDOM_CONFIG);
 }
 
-Entity* TileStair::AddBonus()
+gce::Vector3f32 TileStair::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + BipolarConfig({ 3.f, 4.f, 6.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
+	return GetPosition() + BipolarConfig({ 3.f, 4.f, 6.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f });
+}
+
+gce::Vector3f32 TileStair::PosJump()
+{
+	return GetPosition() + BipolarConfig({ 3.f, 4.f, 21.f }, TileConfig::_2CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_1CONFIG, { -1.f, 1.f, 1.f });
 }
 
 void TileStair::Make()
@@ -77,8 +82,6 @@ void TileStair::Make()
 	e6->SetPosition(BipolarConfig({ 3.f, 2.f, 4.5f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
 	e6->SetTag(Entity::GROUND);
 
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }

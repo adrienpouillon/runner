@@ -19,9 +19,14 @@ void TileFall::Start()
 	SetConfig(TileConfig::RANDOM_CONFIG);
 }
 
-Entity* TileFall::AddBonus()
+gce::Vector3f32 TileFall::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + TripolarConfig({ 0.f, -1.5f, 3.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }, TileConfig::_3CONFIG, { -1.f, 1.f, 1.f }));
+	return GetPosition() + TripolarConfig({ 3.f, -1.5f, 3.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }, TileConfig::_3CONFIG, { 0.f, 1.f, 1.f });
+}
+
+gce::Vector3f32 TileFall::PosJump()
+{
+	return GetPosition() + TripolarConfig(gce::Vector3f32{ 3.f, 1.f, -3.f }, TileConfig::_3CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_1CONFIG, { -1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { 0.f, 1.f, 1.f });
 }
 
 void TileFall::Make()
@@ -47,8 +52,6 @@ void TileFall::Make()
 	e2->SetPosition({ 0.f, -1.f, -3.f });
 	e2->SetTag(Entity::GROUND);
 
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }

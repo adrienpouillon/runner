@@ -63,7 +63,7 @@ void Character::Update(float deltaTime)
         velocityY = maxVelocityY;
     }
 
-    if (velocityZ > maxVelocity.z)
+    if (mBoost && velocityZ > maxVelocity.z)
     {
         mBoost = false;
         velocityZ = maxVelocity.z;
@@ -126,6 +126,18 @@ void Character::OnCollision(Entity* other, gce::Vector3f32 penetration)
     case Entity::SPEED_BONUS:
     {
         SetBoost(true);
+        break;
+    }
+    case Entity::SPEED_MALUS:
+    {
+        gce::Vector3f32 velocity = GetVelocity();
+        SetVelocity(gce::Vector3f32(velocity.x, velocity.y, velocity.z * 0.5f));
+        break;
+    }
+    case Entity::SPEED_JUMP:
+    {
+        gce::Vector3f32 velocity = GetVelocity();
+        SetVelocity(gce::Vector3f32(velocity.x, velocity.y + JUMP * 2.f, velocity.z));
         break;
     }
 

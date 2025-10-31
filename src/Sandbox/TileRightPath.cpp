@@ -19,9 +19,14 @@ void TileRightPath::Start()
 	SetConfig(TileConfig::RANDOM_CONFIG);
 }
 
-Entity* TileRightPath::AddBonus()
+gce::Vector3f32 TileRightPath::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + BipolarConfig({ 3.f, 3.f, 0.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
+	return GetPosition() + BipolarConfig({ 3.f, 3.f, 0.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f });
+}
+
+gce::Vector3f32 TileRightPath::PosJump()
+{
+	return GetPosition() + BipolarConfig({ 3.f, 0.f, 0.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f });
 }
 
 void TileRightPath::Make()
@@ -40,10 +45,8 @@ void TileRightPath::Make()
 	e1->SetPosition(BipolarConfig({ 3.f, 0.f, 0.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
 	e1->SetTag(Entity::GROUND);
 
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 
 	CenterEntitiesOfTileOnZ();
 }

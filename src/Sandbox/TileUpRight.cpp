@@ -19,9 +19,14 @@ void TileUpRight::Start()
 	SetConfig(TileConfig::CLASSIC_CONFIG);
 }
 
-Entity* TileUpRight::AddBonus()
+gce::Vector3f32 TileUpRight::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + gce::Vector3f32{ 0.f, 2.f, -3.f });
+	return GetPosition() + gce::Vector3f32{ 0.f, 2.f, -3.f };
+}
+
+gce::Vector3f32 TileUpRight::PosJump()
+{
+	return GetPosition() + gce::Vector3f32{ -3.f, 1.f, 3.f };
 }
 
 void TileUpRight::Make()
@@ -46,8 +51,6 @@ void TileUpRight::Make()
 	e2->SetPosition({ e1->GetScale().x / 2, 0.f, 0.f });
 	e2->SetTag(Entity::GROUND);
 
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }

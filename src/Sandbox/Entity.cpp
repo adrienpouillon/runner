@@ -30,6 +30,11 @@ void Entity::OnCollision(Entity* other, gce::Vector3f32 penetration)
         //delete mGeometry;
         mGeometry = nullptr;
     }
+    if (mTag == Tag::SPEED_MALUS)
+    {
+        //delete mGeometry;
+        mGeometry = nullptr;
+    }
 }
 
 void Entity::Draw(Window* renderTarget)

@@ -19,9 +19,14 @@ void TileCanyon::Start()
 	SetConfig(TileConfig::RANDOM_CONFIG);
 }
 
-Entity* TileCanyon::AddBonus()
+gce::Vector3f32 TileCanyon::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + gce::Vector3f32{ 3.f, 3.f, 6.f });
+	return GetPosition() + gce::Vector3f32{ 3.f, 3.f, 6.f };
+}
+
+gce::Vector3f32 TileCanyon::PosJump()
+{
+	return GetPosition() + gce::Vector3f32{ 0.f, 1.f, 0.f };
 }
 
 void TileCanyon::Make()
@@ -54,9 +59,6 @@ void TileCanyon::Make()
 	e3->SetPosition(BipolarConfig({ 3.f, 1.5f, 1.2f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { 1.f, 1.f, -1.f }));
 	e3->SetTag(Entity::GROUND);
 
-
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }

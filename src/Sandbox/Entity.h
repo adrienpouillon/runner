@@ -11,6 +11,8 @@ public:
 		GROUND,
 		CHARACTER,
 		SPEED_BONUS,
+		SPEED_MALUS,
+		SPEED_JUMP,
 
 		COUNT
 	};

@@ -19,9 +19,14 @@ void TileRoc::Start()
 	SetConfig(TileConfig::RANDOM_CONFIG);
 }
 
-Entity* TileRoc::AddBonus()
+gce::Vector3f32 TileRoc::PosBonus()
 {
-	return Tile::AddBonus(GetPosition() + BipolarConfig({ 3.f, 4.5f, 3.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
+	return GetPosition() + BipolarConfig({ 3.f, 4.5f, 3.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f });
+}
+
+gce::Vector3f32 TileRoc::PosJump()
+{
+	return GetPosition() + BipolarConfig({ 3.f, 1.f, 3.f }, TileConfig::_2CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_1CONFIG, { -1.f, 1.f, 1.f });
 }
 
 void TileRoc::Make()
@@ -50,11 +55,9 @@ void TileRoc::Make()
 	Entity* e3 = Add<Entity>();
 	e3->SetScale({ 3.f , 3.f , 3.f });
 	e3->SetColor({ 1.f, 1.f, 1.f });
-	e3->SetPosition(BipolarConfig({ 3.f, 1.5f, 3.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
+	e3->SetPosition(BipolarConfig({ 3.f, 2.f, 3.f }, TileConfig::_1CONFIG, { 1.f, 1.f, 1.f }, TileConfig::_2CONFIG, { -1.f, 1.f, 1.f }));
 	e3->SetTag(Entity::GROUND);
 
-	if (GenerateRandomNumber(100) <= BONUS_CHANCE)
-	{
-		AddBonus();
-	}
+	CreatBonus(100);
+	CreatJump(100);
 }
